@@ -24,6 +24,7 @@
   "homepage": "https://github.com/achavez/FusionTables-proxy",
   "dependencies": {
     "express": "^4.4.4",
+    "js-yaml": "^3.0.2",
     "logfmt": "^1.1.2",
     "request": "^2.36.0"
   }

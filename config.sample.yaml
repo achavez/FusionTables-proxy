@@ -1,0 +1,26 @@
+#
+# WHITELISTED ORIGINS
+#
+# If you'd like to restrict access so that only pages with a
+# whitelisted origin header can use your proxy, uncomment the below
+# and replace it with the origin(s) you'd like to whitelist.
+#
+# It's still possible for someone to get around this access control,
+# but this will prevent most browser-based access.
+
+#origins:
+#  - http://localhost:8888
+#  - http://google.com
+
+#
+# WHITELISTED TABLES
+#
+# If you'd like to restrict the tables the proxy will handle requests
+# for, uncomment the below and replace it with the table(s) you'd like
+# to whitelist.
+#
+# You can get a table's ID using File > About on the Fusion Tables site.
+
+#tables:
+#  - b1e3937mtqv891111100011_aaaaaaaaa_CvWhg9gc
+#  - 1e72834tqv89bb11100011_aaaazaaaaa_CvWhg9gc

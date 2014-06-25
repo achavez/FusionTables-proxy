@@ -1,13 +1,19 @@
 var logfmt = require('logfmt');
-var express = require('express');
-var app = express();
-var request = require('request');
+    express = require('express');
+    request = require('request');
+
+var access = require('./access-control.js')
 
 if(!process.env.KEY) {
 	throw new Error('A Fusion Tables API key is required to sign API requests.');
 }
 
+var app = express();
+
 app.use(logfmt.requestLogger());
+
+app.use(access.checkOrigin);
+app.use(access.checkTable);
 
 app.get('/fusiontables/v1/*', function(req, res) {
 	var url = 'https://www.googleapis.com/fusiontables/v1/' + req.params[0];
@@ -19,7 +25,6 @@ app.get('/fusiontables/v1/*', function(req, res) {
 		json: true
 	};
     request.get(parts, function (e, r, ft) {
-		res.set('Access-Control-Allow-Origin', '*');
 		res.json(ft);
     })
 });
