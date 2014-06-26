@@ -26,6 +26,3 @@ node_modules
 
 # Heroku environment file
 .env
-
-# Config file
-config.yaml
