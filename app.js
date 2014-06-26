@@ -59,6 +59,7 @@ app.get('/fusiontables/v1/*', function(req, res) {
 	var url = 'https://www.googleapis.com/fusiontables/v1/' + req.params[0];
 	var query = req.query;
 	query.key = process.env.KEY;
+	delete query.cache;
 	var parts = {
 		url: url,
 		qs: query,
