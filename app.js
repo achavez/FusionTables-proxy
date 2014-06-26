@@ -8,6 +8,7 @@ var logfmt = require('logfmt');
 var access = require('./access-control.js');
 if(process.env.REDISCLOUD_URL || process.env.REDIS_URL) {
 	var cache = require('./result-cache.js');
+	var expire = process.env.TTL || 21600; // 6 hours
 }
 
 if(!process.env.KEY) {
@@ -20,9 +21,15 @@ app.use(logfmt.requestLogger());
 app.use(access.checkOrigin);
 app.get(access.checkTable);
 
+// Set access control headers on OPTIONS requests
+app.options('/fusiontables/v1/*', function(req, res, next) {
+	res.set('Access-Control-Allow-Headers', 'Content-Type');
+	next();
+});
+
 // First check for cached results if caching is enabled
 app.get('/fusiontables/v1/*', function(req, res, next) {
-	if(cache && req.query.cached) {
+	if(cache && req.query.cache) {
 		cache.get(req.url, function(error, reply) {
 			if(error != null) {
 				console.error("Redis error: " + error + ". Querying Google Fusion Tables for " + req.url);
@@ -60,15 +67,13 @@ app.get('/fusiontables/v1/*', function(req, res) {
     	}
     	else {
 			res.json(table);
-			if(cache && req.query.cached) {
-				cache.set(req.url, JSON.stringify(table), function(error) {
-					if(error) {
-						console.error(error);
-					}
-					else {
-						console.log("Cached results for " + req.url);
-					}
-				});
+			if(cache && req.query.cache) {
+				client.multi()
+					.set(req.url, JSON.stringify(table))
+					.expire(req.url, expire)
+					.exec(function (err) {
+						if(error == null) console.log("Cached results for " + req.url);
+					});
 			}
     	}
     })
