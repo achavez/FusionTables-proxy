@@ -1,10 +1,13 @@
 {
   "name": "fusiontables-proxy",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A proxy for Google Fusion Tables, especially for JavaScript apps",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "0.10.x"
   },
   "repository": {
     "type": "git",
@@ -21,6 +24,7 @@
   "bugs": {
     "url": "https://github.com/achavez/FusionTables-proxy/issues"
   },
+  "private": true,
   "homepage": "https://github.com/achavez/FusionTables-proxy",
   "dependencies": {
     "express": "^4.4.4",
