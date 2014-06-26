@@ -31,13 +31,17 @@ app.options('/fusiontables/v1/*', function(req, res, next) {
 app.get('/fusiontables/v1/*', function(req, res, next) {
 	if(cache && req.query.cache) {
 		cache.get(req.url, function(error, reply) {
-			if(error != null) {
-				console.error("Redis error: " + error + ". Querying Google Fusion Tables for " + req.url);
-				next();
-			}
+			if(error != null) next();
 			else if(reply) {
-				console.log("Cache hit. Sending cached results for " + req.url);
-				res.json(JSON.parse(reply));
+				cache.ttl(req.url, function(error, ttl) {
+					if(error == null) {
+						console.log("Cache hit. Sending cached results for " + req.url);
+						var modified = Math.floor(Date.now() / 1000) - expire + ttl;
+						var dateObj = new Date(modified * 1000);
+						res.set('Last-Modified', dateObj.toUTCString());
+						res.json(JSON.parse(reply));
+					}
+				});
 			}
 			else {
 				console.log("Missed cache. Querying Google Fusion Tables for " + req.url);
