@@ -6,7 +6,7 @@ var logfmt = require('logfmt');
 
 // Custom modules
 var access = require('./access-control.js');
-if(process.env.REDISCLOUD_URL) {
+if(process.env.REDISCLOUD_URL || process.env.REDIS_URL) {
 	var cache = require('./result-cache.js');
 }
 
