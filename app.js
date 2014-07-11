@@ -59,7 +59,6 @@ app.get('/fusiontables/v1/*', function(req, res) {
 	var url = 'https://www.googleapis.com/fusiontables/v1/' + req.params[0];
 	var query = req.query;
 	query.key = process.env.KEY;
-	delete query.cache;
 	var parts = {
 		url: url,
 		qs: query,
@@ -77,7 +76,7 @@ app.get('/fusiontables/v1/*', function(req, res) {
 					.set(req.url, JSON.stringify(table))
 					.expire(req.url, expire)
 					.exec(function (err) {
-						if(error == null) console.log("Cached results for " + req.url);
+						if(!err) console.log("Cached results for " + req.url);
 					});
 			}
     	}
