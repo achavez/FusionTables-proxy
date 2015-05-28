@@ -10,6 +10,8 @@ The proxy can restrict access based on the Fusion Table being requested and the 
 
 ## Deployment
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 The proxy should run on any Node environment, but these instructions only cover Heroku deployment.
 
 You'll need to have a credit card on file to use the Redis add-on that's required for caching requests. There's no cost associated, but Heroku requires a credit card for all third-party add-ons. And if you don't want to use caching, you can just skip Redis altogether.
